@@ -110,7 +110,9 @@ function PathEntry({
                         <th className="px-2 py-2">Type</th>
                         <th className="px-2 py-2">Options</th>
                         <th className="px-2 py-2">Required</th>
-                        <th className="px-2 py-2">Must Exist In DB</th>
+                        <th className="px-2 py-2 whitespace-nowrap">
+                          Must Exist In DB
+                        </th>
                         <th className="px-2 py-2 text-left">Description</th>
                       </tr>
                     </thead>
