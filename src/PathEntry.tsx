@@ -178,13 +178,94 @@ function PathEntry({
               <h2 className="text-xl tracking-wider font-semibold text-zinc-10 mb-4">
                 Response
               </h2>
-              <div className="flex items-center gap-4">
-                <div className="text-lg tracking-wide">
-                  <code>{docs.response.status}</code>
+              <div className="space-y-2">
+                <div className="flex items-center gap-4">
+                  <span className="block w-1 h-5 rounded-full bg-green-500" />
+                  <div className="text-lg tracking-wide">
+                    <code>{docs.response.status}</code>
+                  </div>
+                  <div className="text-zinc-500 tracking-wide">
+                    {docs.response.description}{" "}
+                    {docs.response.body && (
+                      <>
+                        - <code>{docs.response.body}</code>
+                      </>
+                    )}
+                  </div>
                 </div>
-                <div className="text-zinc-500 tracking-wide">
-                  {docs.response.description} -{" "}
-                  <code>{docs.response.body}</code>
+                {(
+                  [
+                    ["params", "parameters"],
+                    ["query", "query parameters"],
+                    ["body", "body"],
+                  ] as const
+                )
+                  .filter(([key]) => docs[key].length > 0)
+                  .map(([key, title]) => {
+                    const items = docs[key];
+                    const hasRequired = items.some((item) => item.required);
+
+                    return (
+                      <div className="flex items-center gap-4">
+                        <span className="block w-1 h-5 rounded-full bg-yellow-500" />
+                        <div className="text-lg tracking-wide">
+                          <code>400</code>
+                        </div>
+                        <div className="text-zinc-500 tracking-wide">
+                          Request {title} are {hasRequired && "missing or"}{" "}
+                          invalid
+                        </div>
+                      </div>
+                    );
+                  })}
+                {docs.access !== "public" && (
+                  <div className="flex items-center gap-4">
+                    <span className="block w-1 h-5 rounded-full bg-yellow-500" />
+                    <div className="text-lg tracking-wide">
+                      <code>401</code>
+                    </div>
+                    <div className="text-zinc-500 tracking-wide">
+                      The request was not authorized
+                    </div>
+                  </div>
+                )}
+                {(
+                  [
+                    ["params", "parameters"],
+                    ["query", "query parameters"],
+                    ["body", "body"],
+                  ] as const
+                )
+                  .filter(
+                    ([key]) =>
+                      docs[key].filter((item) => item.must_exist).length > 0
+                  )
+                  .map(([key, title]) => (
+                    <div className="flex items-center gap-4">
+                      <span className="block w-1 h-5 rounded-full bg-yellow-500" />
+                      <div className="text-lg tracking-wide">
+                        <code>404</code>
+                      </div>
+                      <div className="text-zinc-500 tracking-wide">
+                        The resource corresponding to the{" "}
+                        <code>
+                          {docs[key]
+                            .filter((e) => e.must_exist)
+                            .map((e) => e.name)
+                            .join(", ")}{" "}
+                        </code>
+                        in the request {title} was not found
+                      </div>
+                    </div>
+                  ))}
+                <div className="flex items-center gap-4">
+                  <span className="block w-1 h-5 rounded-full bg-red-500" />
+                  <div className="text-lg tracking-wide">
+                    <code>500</code>
+                  </div>
+                  <div className="text-zinc-500 tracking-wide">
+                    An internal server error occurred
+                  </div>
                 </div>
               </div>
             </section>
