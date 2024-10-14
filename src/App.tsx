@@ -57,10 +57,10 @@ const ApiExplorer = () => {
   }, []);
 
   return (
-    <main className="bg-zinc-950 w-full h-dvh text-zinc-100 font-[Urbanist] flex">
+    <main className="bg-zinc-950 w-full h-dvh text-zinc-100 flex">
       {JSON.stringify(routes) !== "{}" ? (
         <>
-          <aside className="w-1/3 flex flex-col p-8 border-r-2 border-zinc-800/50">
+          <aside className="w-1/4 grow-0 flex min-w-0 flex-col p-8 border-r-2 border-zinc-800/50">
             <div className="flex items-center justify-between mb-6">
               <h1 className="flex items-center gap-2 whitespace-nowrap text-2xl tracking-wider font-bold text-zinc-50">
                 <svg
@@ -105,9 +105,9 @@ const ApiExplorer = () => {
                 className="w-full bg-transparent font-medium tracking-wide focus:outline-none placeholder:text-zinc-500 pl-2"
               />
             </search>
-            <div className="space-y-8 mt-6 pt-6 overflow-auto">
+            <div className="space-y-8 mt-6 pt-6 min-w-0 overflow-y-auto overflow-x-hidden">
               {Object.entries(routes).map(([route, paths]) => (
-                <div key={route}>
+                <div key={route} className="min-w-0">
                   <div className="flex items-center justify-between mb-4">
                     <h2 className="font-bold text-lg tracking-widest uppercase">
                       {route
@@ -120,7 +120,10 @@ const ApiExplorer = () => {
                     </span>
                   </div>
                   {paths.map(({ method, path }) => (
-                    <div key={`${route}-${method}-${path}`} className="h-10">
+                    <div
+                      key={`${route}-${method}-${path}`}
+                      className="h-10 min-w-0 flex items-center space-x-2"
+                    >
                       <span
                         className={`font-semibold tracking-wide ${
                           {
@@ -134,16 +137,16 @@ const ApiExplorer = () => {
                       >
                         {method}
                       </span>
-                      <span className="ml-2 tracking-wide text-zinc-500">
+                      <code className="truncate text-base tracking-wide text-zinc-500">
                         {path}
-                      </span>
+                      </code>
                     </div>
                   ))}
                 </div>
               ))}
             </div>
           </aside>
-          <section className="p-12 w-full overflow-auto">
+          <section className="p-12 w-3/4 shrink-0 overflow-auto">
             <div className="flex items-center">
               <Icon icon="mynaui:api" className="size-16 text-lime-500" />
               <div className="-mt-4">

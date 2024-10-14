@@ -54,7 +54,7 @@ function PathEntry({
               <Icon
                 icon={
                   {
-                    public: "tabler:lock-open",
+                    public: "tabler:world",
                     protected: "tabler:lock",
                     private: "tabler:lock",
                   }[docs.access]
@@ -62,7 +62,7 @@ function PathEntry({
                 className="size-5"
               />
             )}
-            <div className="text-lg tracking-wide">{path}</div>
+            <code className="tracking-wide">{path}</code>
           </div>
           <div className="flex items-center gap-4 mr-2">
             {docs?.summary && (
